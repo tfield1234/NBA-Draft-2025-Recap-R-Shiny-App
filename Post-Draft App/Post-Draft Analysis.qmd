@@ -603,7 +603,6 @@ check_dupes <- function(df, name) {
 
 ```
 
-PROPER MASTER JOIN BELOW DISREGARD ATTEMPT ABOVE
 
 ```{r}
 player_team_master_int <- bind_rows(
