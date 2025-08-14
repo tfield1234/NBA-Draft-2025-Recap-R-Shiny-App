@@ -1,0 +1,12 @@
+name: NBADraft2025Recap
+title: NBADraft2025Recap
+username: tbf3
+account: tbf3
+server: shinyapps.io
+hostUrl: https://api.shinyapps.io/v1
+appId: 15004121
+bundleId: 10627260
+url: https://tbf3.shinyapps.io/NBADraft2025Recap/
+version: 1
+asMultiple: FALSE
+asStatic: FALSE
