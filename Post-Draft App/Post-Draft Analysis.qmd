@@ -1,0 +1,1736 @@
+---
+title: "Post-Draft Analysis"
+format: html
+editor: visual
+---
+
+## Quarto
+
+Quarto enables you to weave together content and executable code into a finished document. To learn more about Quarto see <https://quarto.org>.
+
+## Getting that Player Data In
+
+When you click the **Render** button a document will be generated that includes both content and the output of embedded code. You can embed code like this:
+
+```{r}
+library(dplyr)
+player_cut_off <- read_excel("Downloads/Leaderboards - NBA 2024-2025 All excluding Exhibitions - Cut - Player Offensive.xlsx")
+player_cut_off_sub <- player_cut_off %>% select(Player, Team, `%Time`, PPP, `FG%`, `3 FG%`, `%FT`, `%SF`, `TO%`)
+player_cut_off_sub <- player_cut_off_sub %>%
+  rename_with(~ paste0(., "_cut"), -c(Player, Team))
+
+```
+
+```{r}
+player_iso_off <- read_excel("Downloads/Leaderboards - NBA 2024-2025 All excluding Exhibitions - Isolation - Player Offensive.xlsx")
+
+player_iso_off_sub <- player_iso_off %>%
+  select(Player, Team, `%Time`, PPP, `FG%`, `3 FG%`, `%FT`, `%SF`, `TO%`) %>%
+  rename_with(~ paste0(., "_iso"), -c(Player, Team))
+
+```
+
+```{r}
+player_pnr_off <- read_excel("Downloads/Leaderboards - NBA 2024-2025 All excluding Exhibitions - P&R Ball Handler - Player Offensive.xlsx")
+
+player_pnr_off_sub <- player_pnr_off %>%
+  select(Player, Team, `%Time`, PPP, `FG%`, `3 FG%`, `%FT`, `%SF`, `TO%`) %>%
+  rename_with(~ paste0(., "_pnr"), -c(Player, Team))
+
+```
+
+```{r}
+player_post_off <- read_excel("Downloads/Leaderboards - NBA 2024-2025 All excluding Exhibitions - Post-Up - Player Offensive.xlsx")
+
+player_post_off_sub <- player_post_off %>%
+  select(Player, Team, `%Time`, PPP, `FG%`, `3 FG%`, `%FT`, `%SF`, `TO%`) %>%
+  rename_with(~ paste0(., "_post"), -c(Player, Team))
+
+```
+
+```{r}
+player_pnr_roll_off <- read_excel("Downloads/Leaderboards - NBA 2024-2025 All excluding Exhibitions - P&R Roll Man - Player Offensive.xlsx")
+
+player_pnr_roll_off_sub <- player_pnr_roll_off %>%
+  select(Player, Team, `%Time`, PPP, `FG%`, `3 FG%`, `%FT`, `%SF`, `TO%`) %>%
+  rename_with(~ paste0(., "_pnr_roll"), -c(Player, Team))
+
+```
+
+```{r}
+player_spot_off <- read_excel("Downloads/Leaderboards - NBA 2024-2025 All excluding Exhibitions - Spot Up - Player Offensive.xlsx")
+
+player_spot_off_sub <- player_spot_off %>%
+  select(Player, Team, `%Time`, PPP, `FG%`, `3 FG%`, `%FT`, `%SF`, `TO%`) %>%
+  rename_with(~ paste0(., "_spot"), -c(Player, Team))
+
+```
+
+```{r}
+player_offscreen_off <- read_excel("Downloads/Leaderboards - NBA 2024-2025 All excluding Exhibitions - Off Screen - Player Offensive.xlsx")
+
+player_offscreen_off_sub <- player_offscreen_off %>%
+  select(Player, Team, `%Time`, PPP, `FG%`, `3 FG%`, `%FT`, `%SF`, `TO%`) %>%
+  rename_with(~ paste0(., "_offscreen"), -c(Player, Team))
+
+```
+
+```{r}
+player_handoff_off <- read_excel("Downloads/Leaderboards - NBA 2024-2025 All excluding Exhibitions - Hand Off - Player Offensive.xlsx")
+
+player_handoff_off_sub <- player_handoff_off %>%
+  select(Player, Team, `%Time`, PPP, `FG%`, `3 FG%`, `%FT`, `%SF`, `TO%`) %>%
+  rename_with(~ paste0(., "_handoff"), -c(Player, Team))
+
+```
+
+```{r}
+player_offreb_off <- read_excel("Downloads/Leaderboards - NBA 2024-2025 All excluding Exhibitions - Offensive Rebounds - Player Offensive.xlsx")
+
+player_offreb_off_sub <- player_offreb_off %>%
+  select(Player, Team, `%Time`, PPP, `FG%`, `3 FG%`, `%FT`, `%SF`, `TO%`) %>%
+  rename_with(~ paste0(., "_offreb"), -c(Player, Team))
+
+```
+
+```{r}
+player_transition_off <- read_excel("Downloads/Leaderboards - NBA 2024-2025 All excluding Exhibitions - Transition - Player Offensive.xlsx")
+
+player_transition_off_sub <- player_transition_off %>%
+  select(Player, Team, `%Time`, PPP, `FG%`, `3 FG%`, `%FT`, `%SF`, `TO%`) %>%
+  rename_with(~ paste0(., "_transition"), -c(Player, Team))
+
+```
+
+```{r}
+library(readxl)
+library(dplyr)
+
+player_iso_def <- read_excel("Downloads/Leaderboards - NBA 2024-2025 All excluding Exhibitions - Isolation - Player Defensive.xlsx")
+
+player_iso_def_sub <- player_iso_def %>%
+  select(Player, Team, `%Time`, PPP, `FG%`, `3 FG%`, `%FT`, `%SF`, `TO%`) %>%
+  rename_with(~ paste0(., "_isolation_def"), -c(Player, Team))
+
+
+player_pnr_def <- read_excel("Downloads/Leaderboards - NBA 2024-2025 All excluding Exhibitions - P&R Ball Handler - Player Defensive.xlsx")
+
+player_pnr_def_sub <- player_pnr_def %>%
+  select(Player, Team, `%Time`, PPP, `FG%`, `3 FG%`, `%FT`, `%SF`, `TO%`) %>%
+  rename_with(~ paste0(., "_pnr_def"), -c(Player, Team))
+
+
+player_post_def <- read_excel("Downloads/Leaderboards - NBA 2024-2025 All excluding Exhibitions - Post-Up - Player Defensive.xlsx")
+
+player_post_def_sub <- player_post_def %>%
+  select(Player, Team, `%Time`, PPP, `FG%`, `3 FG%`, `%FT`, `%SF`, `TO%`) %>%
+  rename_with(~ paste0(., "_post_def"), -c(Player, Team))
+
+
+player_pnr_roll_def <- read_excel("Downloads/Leaderboards - NBA 2024-2025 All excluding Exhibitions - P&R Roll Man - Player Defensive.xlsx")
+
+player_pnr_roll_def_sub <- player_pnr_roll_def %>%
+  select(Player, Team, `%Time`, PPP, `FG%`, `3 FG%`, `%FT`, `%SF`, `TO%`) %>%
+  rename_with(~ paste0(., "_pnr_roll_def"), -c(Player, Team))
+
+
+player_spot_def <- read_excel("Downloads/Leaderboards - NBA 2024-2025 All excluding Exhibitions - Spot Up - Player Defensive.xlsx")
+
+player_spot_def_sub <- player_spot_def %>%
+  select(Player, Team, `%Time`, PPP, `FG%`, `3 FG%`, `%FT`, `%SF`, `TO%`) %>%
+  rename_with(~ paste0(., "_spot_def"), -c(Player, Team))
+
+
+player_offscreen_def <- read_excel("Downloads/Leaderboards - NBA 2024-2025 All excluding Exhibitions - Off Screen - Player Defensive.xlsx")
+
+player_offscreen_def_sub <- player_offscreen_def %>%
+  select(Player, Team, `%Time`, PPP, `FG%`, `3 FG%`, `%FT`, `%SF`, `TO%`) %>%
+  rename_with(~ paste0(., "_offscreen_def"), -c(Player, Team))
+
+
+player_handoff_def <- read_excel("Downloads/Leaderboards - NBA 2024-2025 All excluding Exhibitions - Hand Off - Player Defensive.xlsx")
+
+player_handoff_def_sub <- player_handoff_def %>%
+  select(Player, Team, `%Time`, PPP, `FG%`, `3 FG%`, `%FT`, `%SF`, `TO%`) %>%
+  rename_with(~ paste0(., "_handoff_def"), -c(Player, Team))
+
+
+```
+
+```{r}
+player_playtype_master <- player_iso_off_sub %>%
+  
+  left_join(player_pnr_off_sub, by = c("Player", "Team")) %>%
+  left_join(player_post_off_sub, by = c("Player", "Team")) %>%
+  left_join(player_pnr_roll_off_sub, by = c("Player", "Team")) %>%
+  left_join(player_spot_off_sub, by = c("Player", "Team")) %>%
+  left_join(player_offscreen_off_sub, by = c("Player", "Team")) %>%
+  left_join(player_handoff_off_sub, by = c("Player", "Team")) %>%
+  left_join(player_offreb_off_sub, by = c("Player", "Team")) %>%
+  left_join(player_transition_off_sub, by = c("Player", "Team")) %>%
+  
+  left_join(player_iso_def_sub, by = c("Player", "Team")) %>%
+  left_join(player_pnr_def_sub, by = c("Player", "Team")) %>%
+  left_join(player_post_def_sub, by = c("Player", "Team")) %>%
+  left_join(player_pnr_roll_def_sub, by = c("Player", "Team")) %>%
+  left_join(player_spot_def_sub, by = c("Player", "Team")) %>%
+  left_join(player_offscreen_def_sub, by = c("Player", "Team")) %>%
+  left_join(player_handoff_def_sub, by = c("Player", "Team")) %>%
+
+  
+  left_join(player_cut_off_sub, by = c("Player", "Team"))
+
+
+player_playtype_master %>% filter(Player == "Tyler Herro")
+```
+
+## Team Synergy Data
+
+```{r}
+
+team_cut_off <- read_excel("Downloads/Leaderboards - NBA 2024-2025 All excluding Exhibitions - Cut - Team Offensive.xlsx")
+
+team_cut_off_sub <- team_cut_off %>%
+  select(Team, `%Time`, PPP, `FG%`, `3 FG%`, `%FT`, `TO%`, `%SF`) %>%
+  rename_with(~ paste0(., "_cut"), -Team)
+
+library(readxl)
+library(dplyr)
+
+
+team_iso_off <- read_excel("Downloads/Leaderboards - NBA 2024-2025 All excluding Exhibitions - Isolation - Team Offensive.xlsx")
+
+team_iso_off_sub <- team_iso_off %>%
+  select(Team, `%Time`, PPP, `FG%`, `3 FG%`, `%FT`, `TO%`, `%SF`) %>%
+  rename_with(~ paste0(., "_iso"), -Team)
+
+
+team_pnr_off <- read_excel("Downloads/Leaderboards - NBA 2024-2025 All excluding Exhibitions - P&R Ball Handler - Team Offensive.xlsx")
+
+team_pnr_off_sub <- team_pnr_off %>%
+  select(Team, `%Time`, PPP, `FG%`, `3 FG%`, `%FT`, `TO%`, `%SF`) %>%
+  rename_with(~ paste0(., "_pnr"), -Team)
+
+
+team_post_off <- read_excel("Downloads/Leaderboards - NBA 2024-2025 All excluding Exhibitions - Post-Up - Team Offensive.xlsx")
+
+team_post_off_sub <- team_post_off %>%
+  select(Team, `%Time`, PPP, `FG%`, `3 FG%`, `%FT`, `TO%`, `%SF`) %>%
+  rename_with(~ paste0(., "_post"), -Team)
+
+
+team_pnr_roll_off <- read_excel("Downloads/Leaderboards - NBA 2024-2025 All excluding Exhibitions - P&R Roll Man - Team Offensive.xlsx")
+
+team_pnr_roll_off_sub <- team_pnr_roll_off %>%
+  select(Team, `%Time`, PPP, `FG%`, `3 FG%`, `%FT`, `TO%`, `%SF`) %>%
+  rename_with(~ paste0(., "_pnr_roll"), -Team)
+
+
+team_spot_off <- read_excel("Downloads/Leaderboards - NBA 2024-2025 All excluding Exhibitions - Spot Up - Team Offensive.xlsx")
+
+team_spot_off_sub <- team_spot_off %>%
+  select(Team, `%Time`, PPP, `FG%`, `3 FG%`, `%FT`, `TO%`, `%SF`) %>%
+  rename_with(~ paste0(., "_spot"), -Team)
+
+
+team_offscreen_off <- read_excel("Downloads/Leaderboards - NBA 2024-2025 All excluding Exhibitions - Off Screen - Team Offensive.xlsx")
+
+team_offscreen_off_sub <- team_offscreen_off %>%
+  select(Team, `%Time`, PPP, `FG%`, `3 FG%`, `%FT`, `TO%`, `%SF`) %>%
+  rename_with(~ paste0(., "_offscreen"), -Team)
+
+
+team_handoff_off <- read_excel("Downloads/Leaderboards - NBA 2024-2025 All excluding Exhibitions - Hand Off - Team Offensive.xlsx")
+
+team_handoff_off_sub <- team_handoff_off %>%
+  select(Team, `%Time`, PPP, `FG%`, `3 FG%`, `%FT`, `TO%`, `%SF`) %>%
+  rename_with(~ paste0(., "_handoff"), -Team)
+
+
+team_cut_off <- read_excel("Downloads/Leaderboards - NBA 2024-2025 All excluding Exhibitions - Cut - Team Offensive.xlsx")
+
+team_cut_off_sub <- team_cut_off %>%
+  select(Team, `%Time`, PPP, `FG%`, `3 FG%`, `%FT`, `TO%`, `%SF`) %>%
+  rename_with(~ paste0(., "_cut"), -Team)
+
+
+team_offreb_off <- read_excel("Downloads/Leaderboards - NBA 2024-2025 All excluding Exhibitions - Offensive Rebounds - Team Offensive.xlsx")
+
+team_offreb_off_sub <- team_offreb_off %>%
+  select(Team, `%Time`, PPP, `FG%`, `3 FG%`, `%FT`, `TO%`, `%SF`) %>%
+  rename_with(~ paste0(., "_offreb"), -Team)
+
+
+team_transition_off <- read_excel("Downloads/Leaderboards - NBA 2024-2025 All excluding Exhibitions - Transition - Team Offensive.xlsx")
+
+team_transition_off_sub <- team_transition_off %>%
+  select(Team, `%Time`, PPP, `FG%`, `3 FG%`, `%FT`, `TO%`, `%SF`) %>%
+  rename_with(~ paste0(., "_transition"), -Team)
+
+
+
+team_iso_def <- read_excel("Downloads/Leaderboards - NBA 2024-2025 All excluding Exhibitions - Isolation - Team Defensive.xlsx")
+
+team_iso_def_sub <- team_iso_def %>%
+  select(Team, `%Time`, PPP, `FG%`, `3 FG%`, `%FT`, `TO%`, `%SF`) %>%
+  rename_with(~ paste0(., "_iso_def"), -Team)
+
+
+team_pnr_def <- read_excel("Downloads/Leaderboards - NBA 2024-2025 All excluding Exhibitions - P&R Ball Handler - Team Defensive.xlsx")
+
+team_pnr_def_sub <- team_pnr_def %>%
+  select(Team, `%Time`, PPP, `FG%`, `3 FG%`, `%FT`, `TO%`, `%SF`) %>%
+  rename_with(~ paste0(., "_pnr_def"), -Team)
+
+
+team_post_def <- read_excel("Downloads/Leaderboards - NBA 2024-2025 All excluding Exhibitions - Post-Up - Team Defensive.xlsx")
+
+team_post_def_sub <- team_post_def %>%
+  select(Team, `%Time`, PPP, `FG%`, `3 FG%`, `%FT`, `TO%`, `%SF`) %>%
+  rename_with(~ paste0(., "_post_def"), -Team)
+
+
+team_pnr_roll_def <- read_excel("Downloads/Leaderboards - NBA 2024-2025 All excluding Exhibitions - P&R Roll Man - Team Defensive.xlsx")
+
+team_pnr_roll_def_sub <- team_pnr_roll_def %>%
+  select(Team, `%Time`, PPP, `FG%`, `3 FG%`, `%FT`, `TO%`, `%SF`) %>%
+  rename_with(~ paste0(., "_pnr_roll_def"), -Team)
+
+
+team_spot_def <- read_excel("Downloads/Leaderboards - NBA 2024-2025 All excluding Exhibitions - Spot Up - Team Defensive.xlsx")
+
+team_spot_def_sub <- team_spot_def %>%
+  select(Team, `%Time`, PPP, `FG%`, `3 FG%`, `%FT`, `TO%`, `%SF`) %>%
+  rename_with(~ paste0(., "_spot_def"), -Team)
+
+
+team_offscreen_def <- read_excel("Downloads/Leaderboards - NBA 2024-2025 All excluding Exhibitions - Off Screen - Team Defensive.xlsx")
+
+team_offscreen_def_sub <- team_offscreen_def %>%
+  select(Team, `%Time`, PPP, `FG%`, `3 FG%`, `%FT`, `TO%`, `%SF`) %>%
+  rename_with(~ paste0(., "_offscreen_def"), -Team)
+
+
+team_handoff_def <- read_excel("Downloads/Leaderboards - NBA 2024-2025 All excluding Exhibitions - Hand Off - Team Defensive.xlsx")
+
+team_handoff_def_sub <- team_handoff_def %>%
+  select(Team, `%Time`, PPP, `FG%`, `3 FG%`, `%FT`, `TO%`, `%SF`) %>%
+  rename_with(~ paste0(., "_handoff_def"), -Team)
+
+
+team_cut_def <- read_excel("Downloads/Leaderboards - NBA 2024-2025 All excluding Exhibitions - Cut - Team Defensive.xlsx")
+
+team_cut_def_sub <- team_cut_def %>%
+  select(Team, `%Time`, PPP, `FG%`, `3 FG%`, `%FT`, `TO%`, `%SF`) %>%
+  rename_with(~ paste0(., "_cut_def"), -Team)
+
+
+team_offreb_def <- read_excel("Downloads/Leaderboards - NBA 2024-2025 All excluding Exhibitions - Offensive Rebounds - Team Defensive.xlsx")
+
+team_offreb_def_sub <- team_offreb_def %>%
+  select(Team, `%Time`, PPP, `FG%`, `3 FG%`, `%FT`, `TO%`, `%SF`) %>%
+  rename_with(~ paste0(., "_offreb_def"), -Team)
+
+
+team_transition_def <- read_excel("Downloads/Leaderboards - NBA 2024-2025 All excluding Exhibitions - Transition - Team Defensive.xlsx")
+
+team_transition_def_sub <- team_transition_def %>%
+  select(Team, `%Time`, PPP, `FG%`, `3 FG%`, `%FT`, `TO%`, `%SF`) %>%
+  rename_with(~ paste0(., "_transition_def"), -Team)
+
+
+```
+
+```{r}
+team_master <- bind_rows(
+  team_cut_off_sub %>% select(Team),
+  team_iso_off_sub %>% select(Team),
+  team_pnr_off_sub %>% select(Team),
+  team_post_off_sub %>% select(Team),
+  team_pnr_roll_off_sub %>% select(Team),
+  team_spot_off_sub %>% select(Team),
+  team_offscreen_off_sub %>% select(Team),
+  team_handoff_off_sub %>% select(Team),
+  team_offreb_off_sub %>% select(Team),
+  team_transition_off_sub %>% select(Team),
+  team_iso_def_sub %>% select(Team),
+  team_pnr_def_sub %>% select(Team),
+  team_post_def_sub %>% select(Team),
+  team_pnr_roll_def_sub %>% select(Team),
+  team_spot_def_sub %>% select(Team),
+  team_offscreen_def_sub %>% select(Team),
+  team_handoff_def_sub %>% select(Team),
+  team_cut_def_sub %>% select(Team),
+  team_offreb_def_sub %>% select(Team),
+  team_transition_def_sub %>% select(Team)
+) %>% distinct(Team)
+
+team_playtype_master <- team_master %>%
+  left_join(team_cut_off_sub, by = "Team") %>%
+  left_join(team_iso_off_sub, by = "Team") %>%
+  left_join(team_pnr_off_sub, by = "Team") %>%
+  left_join(team_post_off_sub, by = "Team") %>%
+  left_join(team_pnr_roll_off_sub, by = "Team") %>%
+  left_join(team_spot_off_sub, by = "Team") %>%
+  left_join(team_offscreen_off_sub, by = "Team") %>%
+  left_join(team_handoff_off_sub, by = "Team") %>%
+  left_join(team_offreb_off_sub, by = "Team") %>%
+  left_join(team_transition_off_sub, by = "Team") %>%
+  left_join(team_iso_def_sub, by = "Team") %>%
+  left_join(team_pnr_def_sub, by = "Team") %>%
+  left_join(team_post_def_sub, by = "Team") %>%
+  left_join(team_pnr_roll_def_sub, by = "Team") %>%
+  left_join(team_spot_def_sub, by = "Team") %>%
+  left_join(team_offscreen_def_sub, by = "Team") %>%
+  left_join(team_handoff_def_sub, by = "Team") %>%
+  left_join(team_cut_def_sub, by = "Team") %>%
+  left_join(team_offreb_def_sub, by = "Team") %>%
+  left_join(team_transition_def_sub, by = "Team")
+
+
+```
+
+Legit player joining code
+
+```{r}
+player_team_master <- bind_rows(
+  player_iso_off_sub %>% select(Player, Team),
+  player_pnr_off_sub %>% select(Player, Team),
+  player_post_off_sub %>% select(Player, Team),
+  player_pnr_roll_off_sub %>% select(Player, Team),
+  player_spot_off_sub %>% select(Player, Team),
+  player_offscreen_off_sub %>% select(Player, Team),
+  player_handoff_off_sub %>% select(Player, Team),
+  player_cut_off_sub %>% select(Player, Team),
+  player_offreb_off_sub %>% select(Player, Team),
+  player_transition_off_sub %>% select(Player, Team),
+  player_iso_def_sub %>% select(Player, Team),
+  player_pnr_def_sub %>% select(Player, Team),
+  player_post_def_sub %>% select(Player, Team),
+  player_pnr_roll_def_sub %>% select(Player, Team),
+  player_spot_def_sub %>% select(Player, Team),
+  player_offscreen_def_sub %>% select(Player, Team),
+  player_handoff_def_sub %>% select(Player, Team)
+) %>%
+  distinct(Player, Team)
+
+player_team_master
+
+
+player_playtype_master <- player_team_master %>%
+  left_join(player_iso_off_sub, by = c("Player", "Team")) %>%
+  left_join(player_pnr_off_sub, by = c("Player", "Team")) %>%
+  left_join(player_post_off_sub, by = c("Player", "Team")) %>%
+  left_join(player_pnr_roll_off_sub, by = c("Player", "Team")) %>%
+  left_join(player_spot_off_sub, by = c("Player", "Team")) %>%
+  left_join(player_offscreen_off_sub, by = c("Player", "Team")) %>%
+  left_join(player_handoff_off_sub, by = c("Player", "Team")) %>%
+  left_join(player_cut_off_sub, by = c("Player", "Team")) %>%
+  left_join(player_offreb_off_sub, by = c("Player", "Team")) %>%
+  left_join(player_transition_off_sub, by = c("Player", "Team")) %>%
+  left_join(player_iso_def_sub, by = c("Player", "Team")) %>%
+  left_join(player_pnr_def_sub, by = c("Player", "Team")) %>%
+  left_join(player_post_def_sub, by = c("Player", "Team")) %>%
+  left_join(player_pnr_roll_def_sub, by = c("Player", "Team")) %>%
+  left_join(player_spot_def_sub, by = c("Player", "Team")) %>%
+  left_join(player_offscreen_def_sub, by = c("Player", "Team")) %>%
+  left_join(player_handoff_def_sub, by = c("Player", "Team"))
+
+player_playtype_master %>% filter(Player =="Dereck Lively II")
+
+```
+
+## Combining International Player Data With College Prospects, first clean int
+
+```{r}
+internationals_basic <- read_excel("Downloads/Internationals.xlsx")
+
+head(internationals_basic)
+internationals_basic$Player
+```
+
+```{r}
+library(readxl)
+library(dplyr)
+
+
+player_iso_off_int <- read_excel("Downloads/Leaderboards - International 2024-2025 All excluding Exhibitions - Isolation - Player Offensive.xlsx")
+
+player_iso_off_int_sub <- player_iso_off_int %>%
+  select(Player, Team, `%Time`, PPP, `FG%`, `3 FG%`, `%SF`, `%FT`, `TO%`) %>%
+  rename_with(~ paste0(., "_iso_int"), -c(Player, Team))
+
+player_iso_off_int_sub %>% filter(Player == "Noa Essengue")
+
+player_pnr_off_int <- read_excel("Downloads/Leaderboards - International 2024-2025 All excluding Exhibitions - P&R Ball Handler - Player Offensive.xlsx")
+
+player_pnr_off_int_sub <- player_pnr_off_int %>%
+  select(Player, Team, `%Time`, PPP, `FG%`, `3 FG%`, `%SF`, `%FT`, `TO%`) %>%
+  rename_with(~ paste0(., "_pnr_int"), -c(Player, Team))
+
+
+player_post_off_int <- read_excel("Downloads/Leaderboards - International 2024-2025 All excluding Exhibitions - Post-Up - Player Offensive.xlsx")
+
+player_post_off_int_sub <- player_post_off_int %>%
+  select(Player, Team, `%Time`, PPP, `FG%`, `3 FG%`, `%SF`, `%FT`, `TO%`) %>%
+  rename_with(~ paste0(., "_post_int"), -c(Player, Team))
+
+player_post_off_int_sub %>% filter(Player == "Noa Essengue")
+player_pnr_roll_off_int <- read_excel("Downloads/Leaderboards - International 2024-2025 All excluding Exhibitions - P&R Roll Man - Player Offensive.xlsx")
+
+player_pnr_roll_off_int_sub <- player_pnr_roll_off_int %>%
+  select(Player, Team, `%Time`, PPP, `FG%`, `3 FG%`, `%SF`, `%FT`, `TO%`) %>%
+  rename_with(~ paste0(., "_pnr_roll_int"), -c(Player, Team))
+
+
+player_spot_off_int <- read_excel("Downloads/Leaderboards - International 2024-2025 All excluding Exhibitions - Spot Up - Player Offensive.xlsx")
+
+player_spot_off_int_sub <- player_spot_off_int %>%
+  select(Player, Team, `%Time`, PPP, `FG%`, `3 FG%`, `%SF`, `%FT`, `TO%`) %>%
+  rename_with(~ paste0(., "_spot_int"), -c(Player, Team))
+
+
+player_offscreen_off_int <- read_excel("Downloads/Leaderboards - International 2024-2025 All excluding Exhibitions - Off Screen - Player Offensive.xlsx")
+
+player_offscreen_off_int_sub <- player_offscreen_off_int %>%
+  select(Player, Team, `%Time`, PPP, `FG%`, `3 FG%`, `%SF`, `%FT`, `TO%`) %>%
+  rename_with(~ paste0(., "_offscreen_int"), -c(Player, Team))
+
+
+player_handoff_off_int <- read_excel("Downloads/Leaderboards - International 2024-2025 All excluding Exhibitions - Hand Off - Player Offensive.xlsx")
+
+player_handoff_off_int_sub <- player_handoff_off_int %>%
+  select(Player, Team, `%Time`, PPP, `FG%`, `3 FG%`, `%SF`, `%FT`, `TO%`) %>%
+  rename_with(~ paste0(., "_handoff_int"), -c(Player, Team))
+
+
+player_cut_off_int <- read_excel("Downloads/Leaderboards - International 2024-2025 All excluding Exhibitions - Cut - Player Offensive.xlsx")
+
+player_cut_off_int_sub <- player_cut_off_int %>%
+  select(Player, Team, `%Time`, PPP, `FG%`, `3 FG%`, `%SF`, `%FT`, `TO%`) %>%
+  rename_with(~ paste0(., "_cut_int"), -c(Player, Team))
+
+
+player_offreb_off_int <- read_excel("Downloads/Leaderboards - International 2024-2025 All excluding Exhibitions - Offensive Rebounds - Player Offensive.xlsx")
+
+player_offreb_off_int_sub <- player_offreb_off_int %>%
+  select(Player, Team, `%Time`, PPP, `FG%`, `3 FG%`, `%SF`, `%FT`, `TO%`) %>%
+  rename_with(~ paste0(., "_offreb_int"), -c(Player, Team))
+
+
+player_transition_off_int <- read_excel("Downloads/Leaderboards - International 2024-2025 All excluding Exhibitions - Transition - Player Offensive.xlsx")
+
+player_transition_off_int_sub <- player_transition_off_int %>%
+  select(Player, Team, `%Time`, PPP, `FG%`, `3 FG%`, `%SF`, `%FT`, `TO%`) %>%
+  rename_with(~ paste0(., "_transition_int"), -c(Player, Team))
+
+
+
+player_iso_def_int <- read_excel("Downloads/Leaderboards - International 2024-2025 All excluding Exhibitions - Isolation - Player Defensive.xlsx")
+
+player_iso_def_int_sub <- player_iso_def_int %>%
+  select(Player, Team, `%Time`, PPP, `FG%`, `3 FG%`, `%SF`, `%FT`, `TO%`) %>%
+  rename_with(~ paste0(., "_iso_def_int"), -c(Player, Team))
+
+
+player_pnr_def_int <- read_excel("Downloads/Leaderboards - International 2024-2025 All excluding Exhibitions - P&R Ball Handler - Player Defensive.xlsx")
+
+player_pnr_def_int_sub <- player_pnr_def_int %>%
+  select(Player, Team, `%Time`, PPP, `FG%`, `3 FG%`, `%SF`, `%FT`, `TO%`) %>%
+  rename_with(~ paste0(., "_pnr_def_int"), -c(Player, Team))
+
+
+player_post_def_int <- read_excel("Downloads/Leaderboards - International 2024-2025 All excluding Exhibitions - Post-Up - Player Defensive.xlsx")
+
+player_post_def_int_sub <- player_post_def_int %>%
+  select(Player, Team, `%Time`, PPP, `FG%`, `3 FG%`, `%SF`, `%FT`, `TO%`) %>%
+  rename_with(~ paste0(., "_post_def_int"), -c(Player, Team))
+
+
+player_pnr_roll_def_int <- read_excel("Downloads/Leaderboards - International 2024-2025 All excluding Exhibitions - P&R Roll Man - Player Defensive.xlsx")
+
+player_pnr_roll_def_int_sub <- player_pnr_roll_def_int %>%
+  select(Player, Team, `%Time`, PPP, `FG%`, `3 FG%`, `%SF`, `%FT`, `TO%`) %>%
+  rename_with(~ paste0(., "_pnr_roll_def_int"), -c(Player, Team))
+
+
+player_spot_def_int <- read_excel("Downloads/Leaderboards - International 2024-2025 All excluding Exhibitions - Spot Up - Player Defensive.xlsx")
+
+player_spot_def_int_sub <- player_spot_def_int %>%
+  select(Player, Team, `%Time`, PPP, `FG%`, `3 FG%`, `%SF`, `%FT`, `TO%`) %>%
+  rename_with(~ paste0(., "_spot_def_int"), -c(Player, Team))
+
+
+player_offscreen_def_int <- read_excel("Downloads/Leaderboards - International 2024-2025 All excluding Exhibitions - Off Screen - Player Defensive.xlsx")
+
+player_offscreen_def_int_sub <- player_offscreen_def_int %>%
+  select(Player, Team, `%Time`, PPP, `FG%`, `3 FG%`, `%SF`, `%FT`, `TO%`) %>%
+  rename_with(~ paste0(., "_offscreen_def_int"), -c(Player, Team))
+
+
+player_handoff_def_int <- read_excel("Downloads/Leaderboards - International 2024-2025 All excluding Exhibitions - Hand Off - Player Defensive.xlsx")
+
+player_handoff_def_int_sub <- player_handoff_def_int %>%
+  select(Player, Team, `%Time`, PPP, `FG%`, `3 FG%`, `%SF`, `%FT`, `TO%`) %>%
+  rename_with(~ paste0(., "_handoff_def_int"), -c(Player, Team))
+
+player_post_off_int_sub %>% filter(Player == "Bogoljub Markovic")
+```
+
+
+```{r}
+target_players <- c(
+  "Joan Berringer", "Nolan Traore", "Noa Essengue", "Ben Saraf", "Hugo Gonzalez",
+  "Noah Penda", "Hansen Yang", "Bogoljub Markovic", "Rocco Zikarsky", "Alex Toohey",
+  "Lachran Olbrich", "Dink Pate", "Saliou Niang", "Izan Almansa"
+)
+
+player_playtype_master_int_filtered <- player_playtype_master_int %>%
+  filter(Player %in% target_players)
+
+
+nrow(player_playtype_master_int_filtered)
+
+
+check_dupes <- function(df, name) {
+  df %>%
+    count(Player, Team) %>%
+    filter(n > 1) %>%
+    mutate(Source = name)
+}
+
+
+
+```
+
+PROPER MASTER JOIN BELOW DISREGARD ATTEMPT ABOVE
+
+```{r}
+player_team_master_int <- bind_rows(
+  player_iso_off_int_sub %>% select(Player, Team),
+  player_pnr_off_int_sub %>% select(Player, Team),
+  player_post_off_int_sub %>% select(Player, Team),
+  player_pnr_roll_off_int_sub %>% select(Player, Team),
+  player_spot_off_int_sub %>% select(Player, Team),
+  player_offscreen_off_int_sub %>% select(Player, Team),
+  player_handoff_off_int_sub %>% select(Player, Team),
+  player_cut_off_int_sub %>% select(Player, Team),
+  player_offreb_off_int_sub %>% select(Player, Team),
+  player_transition_off_int_sub %>% select(Player, Team),
+  player_iso_def_int_sub %>% select(Player, Team),
+  player_pnr_def_int_sub %>% select(Player, Team),
+  player_post_def_int_sub %>% select(Player, Team),
+  player_pnr_roll_def_int_sub %>% select(Player, Team),
+  player_spot_def_int_sub %>% select(Player, Team),
+  player_offscreen_def_int_sub %>% select(Player, Team),
+  player_handoff_def_int_sub %>% select(Player, Team)
+) %>%
+  distinct(Player, Team)
+player_playtype_master_int <- player_team_master_int %>%
+  left_join(player_iso_off_int_sub, by = c("Player", "Team")) %>%
+  left_join(player_pnr_off_int_sub, by = c("Player", "Team")) %>%
+  left_join(player_post_off_int_sub, by = c("Player", "Team")) %>%
+  left_join(player_pnr_roll_off_int_sub, by = c("Player", "Team")) %>%
+  left_join(player_spot_off_int_sub, by = c("Player", "Team")) %>%
+  left_join(player_offscreen_off_int_sub, by = c("Player", "Team")) %>%
+  left_join(player_handoff_off_int_sub, by = c("Player", "Team")) %>%
+  left_join(player_cut_off_int_sub, by = c("Player", "Team")) %>%
+  left_join(player_offreb_off_int_sub, by = c("Player", "Team")) %>%
+  left_join(player_transition_off_int_sub, by = c("Player", "Team")) %>%
+  left_join(player_iso_def_int_sub, by = c("Player", "Team")) %>%
+  left_join(player_pnr_def_int_sub, by = c("Player", "Team")) %>%
+  left_join(player_post_def_int_sub, by = c("Player", "Team")) %>%
+  left_join(player_pnr_roll_def_int_sub, by = c("Player", "Team")) %>%
+  left_join(player_spot_def_int_sub, by = c("Player", "Team")) %>%
+  left_join(player_offscreen_def_int_sub, by = c("Player", "Team")) %>%
+  left_join(player_handoff_def_int_sub, by = c("Player", "Team"))
+
+
+
+target_players <- c(
+  "Joan Beringer", "Nolan Traore", "Noa Essengue", "Ben Saraf", "Hugo Gonzalez",
+  "Noah Penda", "Hansen Yang", "Bogoljub Markovic", "Rocco Zikarsky", "Alex Toohey",
+  "Lachlan Olbrich", "Dink Pate", "Saliou Niang", "Izan Almansa", "Mohamed Diawara"
+)
+
+player_playtype_master_int_filtered <- player_playtype_master_int %>%
+  filter(Player %in% target_players)
+
+
+player_playtype_master_int_filtered$Player
+
+player_cut_off_int_sub %>% filter(Player == "Joan Beringer")
+
+```
+
+```{r}
+internationals_basic$Player
+
+internationals_basic <- internationals_basic %>%
+  mutate(Player = case_when(
+    Player == "Joan Berringer" ~ "Joan Beringer",
+    Player == "Lachran Olbrich" ~ "Lachlan Olbrich",
+    TRUE ~ Player
+  ))
+
+
+head(internationals_basic)
+
+internationals_basic_filtered <- internationals_basic %>%
+  filter(Player != "Dink Pate")
+
+international_merged <- internationals_basic_filtered %>%
+  left_join(player_playtype_master_int_filtered, by = "Player")
+
+
+colnames(international_merged)
+
+```
+
+## Combining this year's prospects synergy and basic
+
+```{r}
+college_advanced <- read_excel("~/Downloads/SMGT 490 MM College Advanced Stats Good Copy.xlsx")
+head(college_advanced)
+college_advanced <- college_advanced %>%
+  mutate(Player = ifelse(Player == "Airious Bailey", "Ace Bailey", Player))
+college_advanced <- college_advanced %>%
+  mutate(Player = ifelse(Player == "V.J. Edgecombe", "VJ Edgecombe", Player))
+college_advanced <- college_advanced %>%
+  mutate(Player = ifelse(Player == "Walter Clayton Jr.", "Walter Clayton Jr", Player))
+college_advanced <- college_advanced %>%
+  mutate(Player = ifelse(Player == "Kameron Jones", "Kam Jones", Player))
+
+college_basic <- read_excel("~/Downloads/SMGT 490 MM Basic College Data 2010-2025.xls")
+college_basic <- college_basic %>%
+  mutate(Player = ifelse(Player == "Airious Bailey", "Ace Bailey", Player))
+college_basic <- college_basic %>%
+  mutate(Player = ifelse(Player == "V.J. Edgecombe", "VJ Edgecombe", Player))
+college_basic <- college_basic %>%
+  mutate(Player = ifelse(Player == "Walter Clayton Jr.", "Walter Clayton Jr", Player))
+college_basic <- college_basic %>%
+  mutate(Player = ifelse(Player == "Kameron Jones", "Kam Jones", Player))
+
+college_synergy_offensive <-read_excel("~/Downloads/Synergy College MM Offensive Stats 2010-2025 Copy.xlsx")
+college_synergy_offensive <- college_synergy_offensive %>%
+  mutate(Player = ifelse(Player == "Kasparas Jakucinis", "Kasparas Jakucionis", Player))
+college_synergy_offensive <- college_synergy_offensive %>%
+  mutate(Player = ifelse(Player == "Alex  Karaban", "Alex Karaban", Player))
+head(college_synergy_offensive)
+college_synergy_defensive <- read_excel("~/Downloads/Synergy College MM Defensive Stats 2010-2025 Copy.xlsx")
+college_synergy_defensive <- college_synergy_defensive %>%
+  mutate(Player = ifelse(Player == "Kasparas Jakucinis", "Kasparas Jakucionis", Player))
+college_synergy_defensive <- college_synergy_defensive %>%
+  mutate(Player = ifelse(Player == "Alex  Karaban", "Alex Karaban", Player))
+
+
+college_basic %>% filter(Player == "Yanic Konan Niederhauser")
+```
+
+```{r}
+library(readxl)
+library(dplyr)
+
+
+cut <- read_excel("~/Downloads/Synergy_PlayTypes/Cut Synergy Offensive Stats 2010-2025.xlsx") %>%
+  select(Season, Player, Team, `%Time`, PPP, `FG%`, `3 FG%`, `%SF`, `%FT`, `TO%`) %>%
+  rename_with(~ paste0(., "_cut"), -c(Season, Player, Team))
+
+handoff <- read_excel("~/Downloads/Synergy_PlayTypes/Handoff Synergy 2010-2025.xlsx") %>%
+  select(Season, Player, Team, `%Time`, PPP, `FG%`, `3 FG%`, `%SF`, `%FT`, `TO%`) %>%
+  rename_with(~ paste0(., "_handoff"), -c(Season, Player, Team))
+
+isolation <- read_excel("~/Downloads/Synergy_PlayTypes/Isolation Synergy Data 2010-2025.xlsx") %>%
+  select(Season, Player, Team, `%Time`, PPP, `FG%`, `3 FG%`, `%SF`, `%FT`, `TO%`) %>%
+  rename_with(~ paste0(., "_iso"), -c(Season, Player, Team))
+
+off_screen <- read_excel("~/Downloads/Synergy_PlayTypes/Off Screen Synergy 2010-2025.xlsx") %>%
+  select(Season, Player, Team, `%Time`, PPP, `FG%`, `3 FG%`, `%SF`, `%FT`, `TO%`) %>%
+  rename_with(~ paste0(., "_offscreen"), -c(Season, Player, Team))
+
+off_rebounds <- read_excel("~/Downloads/Synergy_PlayTypes/Offensive Rebounds Synergy 2010-2025.xlsx") %>%
+  select(Season, Player, Team, `%Time`, PPP, `FG%`, `3 FG%`, `%SF`, `%FT`, `TO%`) %>%
+  rename_with(~ paste0(., "_offreb"), -c(Season, Player, Team))
+
+pnr_handler <- read_excel("~/Downloads/Synergy_PlayTypes/P&R Ball Handler Data Synergy 2010-2025.xlsx") %>%
+  select(Season, Player, Team, `%Time`, PPP, `FG%`, `3 FG%`, `%SF`, `%FT`, `TO%`) %>%
+  rename_with(~ paste0(., "_pnr"), -c(Season, Player, Team))
+
+pnr_roll <- read_excel("~/Downloads/Synergy_PlayTypes/P&R Roll Man Synergy Data 2010-2025.xlsx") %>%
+  select(Season, Player, Team, `%Time`, PPP, `FG%`, `3 FG%`, `%SF`, `%FT`, `TO%`) %>%
+  rename_with(~ paste0(., "_pnr_roll"), -c(Season, Player, Team))
+
+post_up <- read_excel("~/Downloads/Synergy_PlayTypes/Post-Up Synergy Data 2010-2025.xlsx") %>%
+  select(Season, Player, Team, `%Time`, PPP, `FG%`, `3 FG%`, `%SF`, `%FT`, `TO%`) %>%
+  rename_with(~ paste0(., "_post"), -c(Season, Player, Team))
+
+spot_up <- read_excel("~/Downloads/Synergy_PlayTypes/Spot Up Synergy Data 2010-2025.xlsx") %>%
+  select(Season, Player, Team, `%Time`, PPP, `FG%`, `3 FG%`, `%SF`, `%FT`, `TO%`) %>%
+  rename_with(~ paste0(., "_spot"), -c(Season, Player, Team))
+
+transition <- read_excel("~/Downloads/Synergy_PlayTypes/Transition Synergy 2010-2025.xlsx") %>%
+  select(Season, Player, Team, `%Time`, PPP, `FG%`, `3 FG%`, `%SF`, `%FT`, `TO%`) %>%
+  rename_with(~ paste0(., "_transition"), -c(Season, Player, Team))
+
+nba_synergy_all_plays <- cut %>%
+  full_join(handoff,    by = c("Season", "Player", "Team")) %>%
+  full_join(isolation,  by = c("Season", "Player", "Team")) %>%
+  full_join(off_screen, by = c("Season", "Player", "Team")) %>%
+  full_join(off_rebounds, by = c("Season", "Player", "Team")) %>%
+  full_join(pnr_handler, by = c("Season", "Player", "Team")) %>%
+  full_join(pnr_roll,   by = c("Season", "Player", "Team")) %>%
+  full_join(post_up,    by = c("Season", "Player", "Team")) %>%
+  full_join(spot_up,    by = c("Season", "Player", "Team")) %>%
+  full_join(transition, by = c("Season", "Player", "Team"))
+nba_synergy_all_plays$Season
+
+
+nba_synergy_2025 <- nba_synergy_all_plays %>%
+  filter(Season == "2024-2025") %>%
+  mutate(Player = case_when(
+    Player == "Kasparas Jakucinis" ~ "Kasparas Jakucionis",
+    TRUE ~ Player
+  ))
+
+```
+
+```{r}
+college_prospects <- c(
+  "Cooper Flagg", "Dylan Harper", "VJ Edgecombe", "Ace Bailey", "Kon Knueppel",
+  "Tre Johnson", "Khaman Maluach", "Derik Queen", "Kasparas Jakucionis",
+  "Jeremiah Fears", "Jase Richardson", "Carter Bryant", "Collin Murray-Boyles",
+  "Cedric Coward", "Asa Newell", "Thomas Sorber", "Rasheer Fleming", "Egor Demin",
+  "Nique Clifford", "Danny Wolf", "Will Riley", "Liam McNeeley", "Walter Clayton Jr.",
+  "Adou Thiero", "Ryan Kalkbrenner", "Kam Jones", "Koby Brea", "Johni Broome",
+  "Yan. Konan Niederhauser", "Drake Powell", "Maxime Raynaud", "Sion James",
+  "Chaz Lanier", "Tyrese Proctor", "John Tonje", "Alijah Martin", "Jamir Watkins",
+  "Javon Small", "Amari Williams", "Micah Peavy", "Eric Dixon", "Ryan Nembhard",
+  "Kobe Sanders", "Hunter Sallis", "RJ Luis Jr.", "Brice Williams", "Brooks Barnhizer",
+  "Max Shulga", "Tamar Bates", "Viktor Lakhin", "Will Richard", "Grant Nelson",
+  "Chucky Hepburn", "Mark Sears", "Payton Sandfort", "Kobe Johnson",
+  "Jaxson Robinson", "Kadary Richmond", "Caleb Love", "Arthur Kaluma", "Taelon Peter"
+)
+
+extra_players_to_include <- c(
+  "Maxime Raynaud", "Rasheer Fleming", "Walter Clayton Jr", "Drake Powell", "Ben Saraf", 
+  "Noah Penda", "Adou Thiero", "Ryan Kalkbrenner", "Yanic Konan Niederhauser", "Yang Hansen",
+  "Jamir Watkins", "Alex Toohey", "Chaz Lanier", "Bogoljub Markovic", "Johni Broome",
+  "Rocco Zikarsky", "John Tonje", "Tyrese Proctor", "Eric Dixon", "Sion James",
+  "Kam Jones", "Koby Brea", "Javon Small", "Vladislav Goldin", "Lachlan Olbrich",
+  "Viktor Lakhin", "Kobe Sanders", "Dink Pate", "Micah Peavy", "Hunter Sallis",
+  "RJ Luis Jr.", "Amari Williams", "Alijah Martin", "Ryan Nembhard", "Chucky Hepburn",
+  "Mark Sears", "Grant Nelson", "Tamar Bates", "Izan Almansa", "Jaxson Robinson",
+  "Clifford Omoruyi", "Caleb Grill", "Brice Williams", "Caleb Love", "Igor Milicic Jr",
+  "Will Richard", "Saliou Niang", "Curtis Jones", "Isaac Nogues", "Sean Pedulla",
+  "Max Shulga", "Brooks Barnhizer", "Kobe Johnson", "Dawson Garcia", "Miles Kelly",
+  "Mohamed Diawara", "Jacksen Moni", "John Poulakidas", "Payton Sandfort", "Dylan Cardwell",
+  "Kadary Richmond", "RJ Davis", "Zakai Zeigler", "Gabe Madsen", "Lamont Butler",
+  "Norchad Omier", "Eli John Ndiaye", "Matthew Murrell", "L.J. Cryer", "Andrew Carr",
+  "Chance McMillian", "Arthur Kaluma", "Jahmai Mashack", "Steve Settle III", "Jahmyl Telfort"
+)
+
+final_draft_player_list <- unique(c(college_prospects, extra_players_to_include))
+
+nba_synergy_2025_filtered <- nba_synergy_2025 %>%
+  filter(Player %in% final_draft_player_list)
+
+
+```
+
+```{r}
+college_prospects <- c(
+  "Cooper Flagg", "Dylan Harper", "V.J. Edgecombe", "Ace Bailey", "Kon Knueppel",
+  "Tre Johnson", "Khaman Maluach", "Derik Queen", "Kasparas Jakucionis",
+  "Jeremiah Fears", "Jase Richardson", "Carter Bryant", "Collin Murray-Boyles",
+  "Cedric Coward", "Asa Newell", "Thomas Sorber", "Rasheer Fleming", "Egor Demin",
+  "Nique Clifford", "Danny Wolf", "Will Riley", "Liam McNeeley", "Walter Clayton Jr.",
+  "Adou Thiero", "Ryan Kalkbrenner", "Kam Jones", "Koby Brea", "Johni Broome",
+  "Yan. Konan Niederhauser", "Drake Powell", "Maxime Raynaud", "Sion James",
+  "Chaz Lanier", "Tyrese Proctor", "John Tonje", "Alijah Martin", "Jamir Watkins",
+  "Javon Small", "Amari Williams", "Micah Peavy", "Eric Dixon", "Ryan Nembhard",
+  "Kobe Sanders", "Hunter Sallis", "RJ Luis Jr.", "Brice Williams", "Brooks Barnhizer",
+  "Max Shulga", "Tamar Bates", "Viktor Lakhin", "Will Richard", "Grant Nelson",
+  "Chucky Hepburn", "Mark Sears", "Payton Sandfort", "Kobe Johnson",
+  "Jaxson Robinson", "Kadary Richmond", "Caleb Love", "Arthur Kaluma"
+)
+
+extra_players_to_include <- c(
+  "Maxime Raynaud", "Rasheer Fleming", "Walter Clayton Jr.", "Drake Powell", "Ben Saraf", 
+  "Noah Penda", "Adou Thiero", "Ryan Kalkbrenner", "Yanic Konan Niederhauser", "Yang Hansen",
+  "Jamir Watkins", "Alex Toohey", "Chaz Lanier", "Bogoljub Markovic", "Johni Broome",
+  "Rocco Zikarsky", "John Tonje", "Tyrese Proctor", "Eric Dixon", "Sion James",
+  "Kam Jones", "Koby Brea", "Javon Small", "Vladislav Goldin", "Lachlan Olbrich",
+  "Viktor Lakhin", "Kobe Sanders", "Dink Pate", "Micah Peavy", "Hunter Sallis",
+  "RJ Luis Jr.", "Amari Williams", "Alijah Martin", "Ryan Nembhard", "Chucky Hepburn",
+  "Mark Sears", "Grant Nelson", "Tamar Bates", "Izan Almansa", "Jaxson Robinson",
+  "Clifford Omoruyi", "Caleb Grill", "Brice Williams", "Caleb Love", "Igor Milicic Jr",
+  "Will Richard", "Saliou Niang", "Curtis Jones", "Isaac Nogues", "Sean Pedulla",
+  "Max Shulga", "Brooks Barnhizer", "Kobe Johnson", "Dawson Garcia", "Miles Kelly",
+  "Mohamed Diawara", "Jacksen Moni", "John Poulakidas", "Payton Sandfort", "Dylan Cardwell",
+  "Kadary Richmond", "RJ Davis", "Zakai Zeigler", "Gabe Madsen", "Lamont Butler",
+  "Norchad Omier", "Eli John Ndiaye", "Matthew Murrell", "L.J. Cryer", "Andrew Carr",
+  "Chance McMillian", "Arthur Kaluma", "Jahmai Mashack", "Steve Settle III", "Jahmyl Telfort"
+)
+
+final_draft_player_list <- unique(c(college_prospects, extra_players_to_include))
+
+nba_synergy_2025_filtered <- nba_synergy_2025 %>%
+  filter(Player %in% final_draft_player_list)
+
+
+nba_synergy_2025_filtered %>% filter(Player =="Cooper Flagg")
+```
+
+```{r}
+merged_old_college_stats <- merge(college_basic, college_advanced, by = c("Player", "Season", "Team"), all = FALSE)
+
+merged_old_college_stats <- merged_old_college_stats %>%
+  select(-ends_with(".y")) %>%
+  rename_with(~ gsub("\\.x$", "_old", .), ends_with(".x"))
+
+
+merged_old_college_stats_new <- merged_old_college_stats %>% filter(Season=="2024-25")
+merged_old_college_stats_new <- merged_old_college_stats_new %>% mutate(PTS=`PTS/G_old`)
+merged_old_college_stats_new <- merged_old_college_stats_new %>% mutate(Pos = Pos_old)
+merged_old_college_stats_new <- merged_old_college_stats_new %>% select(-Pos_old,-`PTS/G_old`)
+colnames(merged_old_college_stats_new)
+```
+
+```{r}
+final_merged_college_synergy <- nba_synergy_2025_filtered %>%
+  inner_join(merged_old_college_stats_new, by = "Player")
+
+final_merged_college_synergy <- final_merged_college_synergy %>% filter(Player !="Kobe Johnson")
+
+final_merged_college_synergy %>% filter(Player=="VJ Edgecombe")
+colnames(final_merged_college_synergy)
+
+
+colnames(international_merged)
+tail(international_merged,5)
+```
+
+```{r}
+library(dplyr)
+library(stringr)
+
+international_aligned <- international_merged %>%
+  select(-matches("_def")) %>%
+  
+  rename_with(~ str_replace(., "_int$", ""), matches("_int$")) %>%
+  
+  rename(
+    Team.x = Team,
+    G_old = GP,
+    GS_old = GS
+  ) %>%
+  
+  mutate(
+    Season.x = NA,
+    Season.y = NA,
+    Team.y = NA,
+    Rk_old = NA,
+    MP = NA,
+    FG = NA,
+    `2P` = NA,
+    `2PA` = NA,
+    `3P` = NA,
+    `3PA` = NA,
+    FT = NA,
+    ORB = OFF,
+    DRB = DEF,
+    TRB = TRB,
+    AST = AST,
+    STL = STL,
+    BLK = BLK,
+    TOV = TOV,
+    PF = PF,
+    PTS = PTS,
+    `FG%` = `FG%`,
+    `2P%` = NA,
+    `3P%` = `3P%`,
+    `FT%` = `FT%`,
+    `TS%` = `TS%`,
+    `eFG%` = `eFG%`,
+    Class_old = NA,
+    WS = WS,
+    ORtg = ORtg,
+    DRtg = DRtg,
+    OWS = OWS,
+    DWS = DWS,
+    `WS/40` = NA,
+    OBPM = NA,
+    DBPM = NA,
+    BPM = NA,
+    PER = PER,
+    `ORB%` = `ORB%`,
+    `DRB%` = `DRB%`,
+    `TRB%` = `TRB%`,
+    `AST%` = `AST%`,
+    `STL%` = `STL%`,
+    `BLK%` = `BLK%`,
+    `TOV%` = `TOV%`,
+    `USG%` = `USG%`,
+    Pos = NA
+  ) %>%
+  
+  select(any_of(colnames(final_merged_college_synergy)))
+
+```
+
+```{r}
+colnames(final_merged_college_synergy)
+
+colnames(international_aligned)
+
+international_aligned
+```
+
+```{r}
+final_draft_synergy_combined <- bind_rows(final_merged_college_synergy, international_aligned)
+
+
+colSums(is.na(final_draft_synergy_combined)) %>%
+  sort(decreasing = TRUE)
+
+final_draft_synergy_combined$Player
+```
+
+```{r}
+colnames(final_draft_synergy_combined)
+
+library(dplyr)
+
+final_draft_synergy_percentiled <- final_draft_synergy_combined %>%
+  mutate(across(
+    .cols = where(is.numeric),
+    .fns = ~ percent_rank(.x) * 100,
+    .names = "{.col}_pctile"
+  )) %>%
+  mutate(across(
+    .cols = ends_with("_pctile"),
+    .fns = ~ round(.x, 0)
+  )) %>%
+  mutate(across(
+    .cols = matches("(^TO%|^TO).*_pctile$"), 
+    .fns = ~ 100 - .x
+  ))
+
+
+
+
+```
+
+## Combine NBA player synergy with basic
+
+```{r}
+nba_basic_summer <-read_excel("Downloads/NBA Basic 2024-2025 6:25:25.xls")
+nba_advanced_summer <- read_excel("Downloads/NBA Advanced Stats 2024-2025 6:25:25.xlt")
+
+colnames(nba_advanced_summer)
+colnames(nba_basic_summer)
+```
+
+```{r}
+nba_combined_summer <- nba_basic_summer %>%
+  left_join(nba_advanced_summer, by = c("Player", "Team"))
+
+
+player_playtype_master %>%
+  count(Player) %>%
+  filter(n > 1)
+
+
+player_playtype_master%>% filter(Player == "Max Christie")
+
+
+player_playtype_master_dedup <- player_playtype_master %>%
+  group_by(Player) %>%
+  slice_tail(n = 1) %>%
+  ungroup()
+
+player_playtype_master_dedup <- player_playtype_master_dedup %>%
+  mutate(Player = ifelse(Player == "DAngelo Russell", "D'Angelo Russell", Player))
+
+
+player_playtype_master %>% filter(Player=="Maxi Kleber")
+
+library(stringr)
+library(stringi)
+
+nba_combined_summer <- nba_combined_summer %>%
+  mutate(Player = Player %>%
+           str_replace_all("[‘’'´`]", "") %>%                     
+           stri_trans_general(id = "Latin-ASCII") %>%             
+           str_replace_all("[^A-Za-z0-9\\- ]", "") %>%          
+           str_squish()                                           
+  ) %>%
+  mutate(Player = ifelse(Player == "Zach LaVine", "Zach Lavine", Player))
+nba_combined_summer <- nba_combined_summer %>%
+  mutate(Player = ifelse(Player == "DeAaron Fox", "De'Aaron Fox", Player))
+nba_combined_summer <- nba_combined_summer %>%
+  mutate(Player = ifelse(Player == "PJ Washington", "P.J. Washington", Player))
+
+
+nba_combined_summer %>% filter(Player == "PJ Washington")
+nba_full_combined <- player_playtype_master_dedup %>%
+  left_join(nba_combined_summer, by = "Player")
+player_playtype_master_dedup %>% filter(Player == "P.J. Washington")
+nrow(nba_full_combined)
+
+nba_full_combined %>% filter(Player == "Zach Lavine")
+nba_full_combined_percentiled %>% filter(Player == "P.J. Washington")
+colnames(nba_full_combined)
+nba_full_combined_percentiled$Pos.y
+colnames(final_draft_synergy_percentiled)
+```
+
+```{r}
+
+colnames(nba_full_combined)
+nba_full_combined$PTS <- nba_full_combined$`PTS/G`
+
+nba_full_combined_percentiled <- nba_full_combined %>%
+  mutate(across(
+    .cols = where(is.numeric),
+    .fns = ~ percent_rank(.x) * 100,
+    .names = "{.col}_pctile"
+  )) %>%
+  mutate(across(
+    .cols = ends_with("_pctile"),
+    .fns = ~ round(.x, 0)
+  )) %>%
+  mutate(across(
+    .cols = matches("(^TO%|^TO|^DRtg).*_pctile$"),
+    .fns = ~ 100 - .x
+  ))
+
+
+colnames(nba_full_combined_percentiled)
+nba_full_combined_percentiled %>% filter(Player == "De'Aaron Fox")
+
+colnames(final_draft_synergy_percentiled)
+```
+
+## Percentile Rank NBA Team Stats
+
+```{r}
+colnames(team_playtype_master)
+
+library(dplyr)
+
+team_playtype_percentiled <- team_playtype_master %>%
+  mutate(across(
+    .cols = where(is.numeric),
+    .fns = function(x) {
+      colname <- cur_column()
+      
+      if (grepl("_def$", colname)) {
+        if (grepl("TO%", colname) || grepl("%Time", colname)) {
+          return(percent_rank(x) * 100) 
+        } else {
+          return((1 - percent_rank(x)) * 100)  
+        }
+      } else {
+        if (grepl("TO%", colname)) {
+          return((1 - percent_rank(x)) * 100)  
+        } else {
+          return(percent_rank(x) * 100)  
+        }
+      }
+    },
+    .names = "{.col}_pctile"
+  )) %>%
+  mutate(across(ends_with("_pctile"), ~ round(.x, 0)))
+
+
+```
+
+## Fit Function for Post-Draft
+
+```{r}
+
+final_draft_synergy_percentiled <- final_draft_synergy_percentiled %>%
+  mutate(FTA_per_FGA = FTA / FGA) %>%
+  mutate(FTA_per_FGA_pctile = round(percent_rank(FTA_per_FGA) * 100, 0))
+
+
+
+#Same function from TBF Draft Portal
+find_best_college_fits2 <- function(team_name, season, nba_data, college_data, roster_df) {
+  
+college_data <- college_data %>%
+  mutate(Defensive_Impact_Score = (DBPM * 2) + (1.5 * STL_pct) + BLK_pct - DRtg)
+
+  team_stats <- nba_data %>% filter(Team.x == team_name, Season == season)
+  if (nrow(team_stats) == 0) return(NULL)
+  
+  valid_team_stats <- c(
+    "Team_ORtg", "Team_DRtg", "Team_eFG_pct", "Team_TS_pct", 
+    "Team_TOV_pct", "Team_ORB_pct", "Team_DRB_pct", "Team_AST", 
+    "Team_STL", "Team_BLK", "Team_PTS", 
+    "Team_Opp_eFG_pct", "Team_Opp_TS_pct", "Team_Opp_TOV_pct", 
+    "Team_Opp_ORB_pct", "Team_Opp_DRB_pct", "Team_Opp_AST", 
+    "Team_Opp_STL", "Team_Opp_BLK", "Team_Opp_PTS", "Team_3PT"
+  )
+  
+  reverse_team_stats <- c(
+    "Team_TOV_pct", "Team_Opp_eFG_pct", "Team_Opp_TS_pct",
+    "Team_Opp_PTS", "Team_Opp_ORB_pct", "Team_Opp_DRB_pct", "Team_DRtg", "Team_Opp_STL", "Team_Opp_BLK", "Team_Opp_AST"
+  )
+  
+nba_percentiles <- nba_data %>%
+  filter(Season == season) %>%
+  mutate(across(all_of(valid_team_stats), ~ percent_rank(.)))
+
+team_percentiles <- nba_percentiles %>%
+  mutate(across(
+    all_of(reverse_team_stats),
+    ~ 1 - .
+  )) %>%
+  filter(Team.x == team_name) %>%
+  select(all_of(valid_team_stats))
+
+  
+  team_percentiles_long <- team_percentiles %>%
+  pivot_longer(everything(), names_to = "Stat", values_to = "Percentile") %>%
+  distinct(Stat, .keep_all = TRUE)
+team_raw_stats <- nba_data %>%
+  filter(Team.x == team_name, Season == season) %>%
+  select(all_of(valid_team_stats)) %>%
+  pivot_longer(cols = everything(), names_to = "Stat", values_to = "RawValue")
+
+team_raw_stats <- team_raw_stats %>%
+  distinct(Stat, .keep_all = TRUE)
+
+worst_stats <- team_percentiles_long %>%
+  left_join(team_raw_stats, by = "Stat") %>%
+  arrange(Percentile) %>%
+  distinct(Stat, .keep_all = TRUE)
+
+
+stat_groups <- list(
+  efg_vs_ts = c("Team_Opp_eFG_pct", "Team_Opp_TS_pct"),
+  def_rebounding = c("Team_DRB_pct", "Team_Opp_ORB_pct"),
+  off_rebounding = c("Team_ORB_pct", "Team_Opp_DRB_pct"),
+  ts_vs_efg =  c("Team_eFG_pct", "Team_TS_pct"),
+  ortg_vs_pts = c("Team_PTS", "Team_ORtg"),
+  drtg_vs_pts = c("Team_Opp_PTS", "Team_DRtg"),
+  tov_vs_stl = c("Team_TOV_pct", "Team_Opp_STL"),
+  st_vs_to = c("Team_Opp_TOV_pct", "Team_STL")
+)
+
+for (group in stat_groups) {
+  overlap_stats <- group[group %in% worst_stats$Stat]
+  if (length(overlap_stats) > 1) {
+    group_subset <- worst_stats %>% filter(Stat %in% overlap_stats)
+    
+    worst <- group_subset %>%
+      arrange(Percentile, RawValue) %>%
+      slice(1)
+    
+    worst_stats <- worst_stats %>%
+      filter(!(Stat %in% overlap_stats)) %>%
+      bind_rows(worst)
+  }
+}
+
+
+worst_stats <- worst_stats %>% arrange(Percentile) %>% slice_head(n = 5)
+
+
+  
+  stat_mapping <- list(
+    "Team_ORtg" = c("eFG%", "TOV%", "PTS"),
+    "Team_DRtg" = c("STL%", "BLK%", "DRB_pct", "DWS"),
+    "Team_eFG_pct" = c("eFG_pct", "2P_pct"),
+    "Team_TS_pct" = c("TS_pct", "FTA_per_FGA"),
+    "Team_TOV_pct" = c("TOV%"),
+    "Team_ORB_pct" = c("ORB%"),
+    "Team_DRB_pct" = c("DRB%", "BLK%"),
+    
+    "Team_AST" = c("AST%"),
+    "Team_STL" = c("STL%"),
+    "Team_BLK" = c("BLK%"),
+    "Team_PTS" = c("PTS", "TS%"),
+    "Team_Opp_eFG_pct" = c("BLK%", "STL%", "DWS"),
+    "Team_Opp_TS_pct" = c("STL_pct", "DWS"),
+    "Team_Opp_TOV_pct" = c("STL%"),
+    "Team_Opp_ORB_pct" = c("DRB%", "BLK%"),
+    "Team_Opp_DRB_pct" = c("ORB%"),
+    "Team_Opp_AST" = c("STL%"),
+    "Team_Opp_STL" = c("TOV%"),
+    "Team_Opp_BLK" = c("eFG%"),
+    "Team_Opp_PTS" = c("STL%", "BLK%", "DWS"),
+    "Team_3PT" = c("3P%")
+  )
+  
+  weak_stat_names <- worst_stats$Stat
+  mapped_stats <- unique(unlist(stat_mapping[weak_stat_names]))
+  
+  college_data <- college_data %>% filter(Season == "2024-25")
+  print("Before filter mapped_stats:")
+print(unique(unlist(stat_mapping[weak_stat_names])))
+print("college_data colnames:")
+print(colnames(college_data))
+
+  mapped_stats <- mapped_stats[mapped_stats %in% colnames(college_data)]
+  
+  if (length(mapped_stats) == 0) return(NULL)
+  
+  reverse_player_stats <- c("TOV_pct")  
+  
+print("Mapped Stats:")
+print(mapped_stats)
+print("Reverse Stats:")
+print(reverse_player_stats)
+
+college_data <- college_data %>%
+  mutate(across(
+    all_of(mapped_stats[!mapped_stats %in% reverse_player_stats]),
+    ~ percent_rank(.),
+    .names = "perc_{.col}"
+  ))
+
+college_data <- college_data %>%
+  mutate(across(
+    all_of(mapped_stats[mapped_stats %in% reverse_player_stats]),
+    ~ 1 - percent_rank(.),
+    .names = "perc_{.col}"
+  ))
+
+  
+  all_ranked_players <- college_data %>%
+    mutate(
+      Fit_Score = rowMeans(across(starts_with("perc_")), na.rm = TRUE),
+      Final_Score = Fit_Score
+    ) %>%
+    mutate(across(all_of(mapped_stats), identity, .names = "stat_{.col}")) %>%
+    select(
+      Player, Team.x, Season, Production_Score, Fit_Score, Final_Score,
+      starts_with("stat_"), starts_with("perc_")
+    ) %>%
+    distinct(Player, Season, .keep_all = TRUE)
+  
+  raw_cols <- paste0("raw_", mapped_stats)
+  raw_cols <- raw_cols[raw_cols %in% names(roster_df)]
+  
+  if (length(raw_cols) > 0) {
+    roster_raw <- roster_df %>%
+  select(Player, Season, all_of(raw_cols)) %>%
+  distinct(Player, Season, .keep_all = TRUE) %>%
+  rename_with(~ gsub("^raw_", "", .), starts_with("raw_"))
+    
+    all_ranked_players <- all_ranked_players %>%
+      left_join(roster_raw, by = c("Player", "Season"))
+  }
+  top_college_players <- all_ranked_players %>%
+  arrange(desc(Final_Score)) %>%
+  slice_head(n = 20)
+ 
+  
+  return(list(
+    top_players = top_college_players,
+    team_weaknesses = worst_stats,
+    all_players = all_ranked_players
+  ))
+}
+
+
+nba_data
+colnames(final_draft_synergy_percentiled)
+
+
+
+test <- find_best_college_fits2("Utah Jazz", "2024-25", nba_data, fit_data_rooks, roster_df = roster_rooks)
+
+
+colnames(nba_data)
+```
+
+```{r}
+find_team_stat_weakness_and_matches <- function(team_name, season, nba_data, college_data) {
+  
+  print(paste("Running for team:", team_name, "| Season:", season))
+  
+  valid_team_stats <- c(
+    "Team_ORtg", "Team_DRtg", "Team_eFG_pct", "Team_TS_pct", 
+    "Team_TOV_pct", "Team_ORB_pct", "Team_DRB_pct", "Team_AST", 
+    "Team_STL", "Team_BLK", "Team_PTS", 
+    "Team_Opp_eFG_pct", "Team_Opp_TS_pct", "Team_Opp_TOV_pct", 
+    "Team_Opp_ORB_pct", "Team_Opp_DRB_pct", "Team_Opp_AST", 
+    "Team_Opp_STL", "Team_Opp_BLK", "Team_Opp_PTS", "Team_3PT"
+  )
+  
+  reverse_team_stats <- c(
+    "Team_TOV_pct", "Team_Opp_eFG_pct", "Team_Opp_TS_pct",
+    "Team_Opp_PTS", "Team_Opp_ORB_pct", "Team_Opp_DRB_pct", 
+    "Team_DRtg", "Team_Opp_STL", "Team_Opp_BLK", "Team_Opp_AST"
+  )
+  
+  print("Calculating NBA percentiles...")
+  
+  nba_percentiles <- nba_data %>%
+    filter(Season == season) %>%
+    mutate(across(all_of(valid_team_stats), ~ percent_rank(.)))
+  
+  team_percentiles <- nba_percentiles %>%
+    mutate(across(all_of(reverse_team_stats), ~ 1 - .)) %>%
+    filter(Team.x == team_name) %>%
+    select(all_of(valid_team_stats))
+  
+  print("Team percentiles calculated. Columns available:")
+  print(colnames(team_percentiles))
+  
+  team_percentiles_long <- team_percentiles %>%
+    pivot_longer(everything(), names_to = "Stat", values_to = "Percentile") %>%
+    distinct(Stat, .keep_all = TRUE)
+  
+  team_raw_stats <- nba_data %>%
+    filter(Team.x == team_name, Season == season) %>%
+    select(all_of(valid_team_stats)) %>%
+    pivot_longer(cols = everything(), names_to = "Stat", values_to = "RawValue") %>%
+    distinct(Stat, .keep_all = TRUE)
+  
+  worst_stats <- team_percentiles_long %>%
+    left_join(team_raw_stats, by = "Stat") %>%
+    arrange(Percentile)
+  
+  print("Initial worst stats (before group de-duplication):")
+  print(worst_stats$Stat)
+  
+  stat_groups <- list(
+    efg_vs_ts = c("Team_Opp_eFG_pct", "Team_Opp_TS_pct"),
+    def_rebounding = c("Team_DRB_pct", "Team_Opp_ORB_pct"),
+    off_rebounding = c("Team_ORB_pct", "Team_Opp_DRB_pct"),
+    ts_vs_efg =  c("Team_eFG_pct", "Team_TS_pct"),
+    ortg_vs_pts = c("Team_PTS", "Team_ORtg"),
+    drtg_vs_pts = c("Team_Opp_PTS", "Team_DRtg"),
+    tov_vs_stl = c("Team_TOV_pct", "Team_Opp_STL"),
+    st_vs_to = c("Team_Opp_TOV_pct", "Team_STL")
+  )
+  
+  for (group in stat_groups) {
+    overlap <- group[group %in% worst_stats$Stat]
+    if (length(overlap) > 1) {
+      keep_row <- worst_stats %>%
+        filter(Stat %in% overlap) %>%
+        arrange(Percentile, RawValue) %>%
+        slice(1)
+      
+      worst_stats <- worst_stats %>%
+        filter(!(Stat %in% overlap)) %>%
+        bind_rows(keep_row)
+    }
+  }
+  
+  worst_stats <- worst_stats %>% arrange(Percentile) %>% slice_head(n = 5)
+  
+  print("Final selected worst team stats after group filtering:")
+  print(worst_stats$Stat)
+  
+  stat_mapping <- list(
+    "Team_ORtg" = c("eFG%", "TOV%", "PTS"),
+    "Team_DRtg" = c("STL%", "BLK%", "DRB%", "DWS"),
+    "Team_eFG_pct" = c("eFG%", "2P%"),
+    "Team_TS_pct" = c("TS%", "FTA_per_FGA"),
+    "Team_TOV_pct" = c("TOV%"),
+    "Team_ORB_pct" = c("ORB%"),
+    "Team_DRB_pct" = c("DRB%", "BLK%"),
+    
+    "Team_AST" = c("AST%"),
+    "Team_STL" = c("STL%"),
+    "Team_BLK" = c("BLK%"),
+    "Team_PTS" = c("PTS", "TS%"),
+    
+    "Team_Opp_eFG_pct" = c("BLK%", "STL%", "DWS"),
+    "Team_Opp_TS_pct" = c("STL%", "DWS"),
+    "Team_Opp_TOV_pct" = c("STL%"),
+    "Team_Opp_ORB_pct" = c("DRB%", "BLK%"),
+    "Team_Opp_DRB_pct" = c("ORB%"),
+    "Team_Opp_AST" = c("STL%"),
+    "Team_Opp_STL" = c("TOV%"),
+    "Team_Opp_BLK" = c("eFG%"),
+    "Team_Opp_PTS" = c("STL%", "BLK%", "DWS"),
+    
+    "Team_3PT" = c("3P%")
+  )
+  
+  mapped_stats <- unique(unlist(stat_mapping[worst_stats$Stat]))
+  mapped_stats <- mapped_stats[mapped_stats %in% colnames(college_data)]
+  
+  print("Mapped college stats after filtering for availability in college_data:")
+  print(mapped_stats)
+  
+  existing_percentile_cols <- paste0(mapped_stats, "_pctile")
+  existing_percentile_cols <- existing_percentile_cols[existing_percentile_cols %in% colnames(college_data)]
+  
+  print("Existing player percentile columns:")
+  print(existing_percentile_cols)
+  
+  if (length(mapped_stats) == 0 || length(existing_percentile_cols) == 0) {
+    print("No valid mapped stats or percentile columns available in college_data.")
+    return(list(
+      Team_Worst_Stats = worst_stats,
+      Player_Stat_Table = NULL
+    ))
+  }
+  
+  raw_long <- college_data %>%
+    select(Player, all_of(mapped_stats)) %>%
+    pivot_longer(
+      cols = all_of(mapped_stats),
+      names_to = "Stat",
+      values_to = "RawValue"
+    )
+  
+  pct_long <- college_data %>%
+  select(Player, all_of(existing_percentile_cols)) %>%
+  pivot_longer(
+    cols = all_of(existing_percentile_cols),
+    names_to = "Percentile_Stat",
+    values_to = "Percentile"
+  ) %>%
+  mutate(Stat = gsub("_pctile$", "", Percentile_Stat)) %>%
+  select(Player, Stat, Percentile)
+
+  
+  player_output <- raw_long %>%
+    left_join(pct_long, by = c("Player", "Stat"))
+  
+  print("Final player stat table row count:")
+  print(nrow(player_output))
+  
+  return(list(
+    Team_Worst_Stats = worst_stats,
+    Player_Stat_Table = player_output
+  ))
+}
+
+
+new_test <- find_team_stat_weakness_and_matches("Orlando Magic", "2024-25", nba_data, final_draft_synergy_percentiled)
+
+colnames(final_draft_synergy_percentiled)
+
+```
+
+```{r}
+final_draft_synergy_percentiled$Pos
+
+tail(final_draft_synergy_percentiled,9)
+
+
+final_draft_synergy_percentiled <- final_draft_synergy_percentiled %>%
+  mutate(Pos = case_when(
+    Player == "Joan Beringer" ~ "C",
+    Player == "Nolan Traore" ~ "G",
+    Player == "Noa Essengue" ~ "F",
+    Player == "Ben Saraf" ~ "G",
+    Player == "Hugo Gonzalez" ~ "G",
+    Player == "Noah Penda" ~ "F",
+    Player == "Hansen Yang" ~ "C",
+    Player == "Bogoljub Markovic" ~ "F",
+    Player == "Rocco Zikarsky" ~ "C",
+    Player == "Alex Toohey" ~ "F",
+    Player == "Lachlan Olbrich" ~ "F",
+    Player == "Saliou Niang" ~ "F",
+    Player == "Izan Almansa" ~ "F",
+    Player == "Mohamed Diawara" ~ "F",
+    TRUE ~ Pos 
+  ))
+
+
+rookie_heights <- roster_df_rooks %>% select(Player, player_height, player_weight)
+#final_draft_synergy_percentiled_backup_before_height <- final_draft_synergy_percentiled
+
+final_draft_synergy_percentiled <- final_draft_synergy_percentiled %>%
+  left_join(rookie_heights, by = "Player")
+
+
+height_weight_lookup <- tibble(
+  Player = c(
+    "Joan Beringer", "Nolan Traore", "Noa Essengue", "Ben Saraf", "Hugo Gonzalez",
+    "Noah Penda", "Hansen Yang", "Bogoljub Markovic", "Rocco Zikarsky",
+    "Alex Toohey", "Lachlan Olbrich", "Saliou Niang", "Izan Almansa", "Mohamed Diawara"
+  ),
+  player_height = c(208, 196, 206, 198, 198, 203, 218, 211, 221, 201, 208, 196, 208, 203.2),
+  player_weight = c(108.9, 78.9, 92.5, 91.2, 93.0, 102.1, 117.0, 86.2, 117.0, 93.0, 107.1, 86.2, 104.3, 91)
+)
+
+final_draft_synergy_percentiled <- final_draft_synergy_percentiled %>%
+  left_join(height_weight_lookup, by = "Player") %>%
+  mutate(
+    player_height = coalesce(player_height.x, player_height.y),
+    player_weight = coalesce(player_weight.x, player_weight.y)
+  ) %>%
+  select(-player_height.x, -player_height.y, -player_weight.x, -player_weight.y)
+
+final_draft_synergy_percentiled$Team.x
+
+
+colnames(team_playtype_percentiled)
+team
+```
+
+```{r}
+drafted_players <- c(
+  "Cooper Flagg", "Dylan Harper", "VJ Edgecombe", "Kon Knueppel", "Ace Bailey",
+  "Tre Johnson", "Jeremiah Fears", "Egor Demin", "Collin Murray-Boyles", "Khaman Maluach",
+  "Cedric Coward", "Noa Essengue", "Derik Queen", "Carter Bryant", "Thomas Sorber",
+  "Hansen Yang", "Joan Beringer", "Walter Clayton Jr", "Nolan Traore", "Kasparas Jakucionis",
+  "Will Riley", "Drake Powell", "Asa Newell", "Nique Clifford", "Jase Richardson",
+  "Ben Saraf", "Danny Wolf", "Hugo Gonzalez", "Liam McNeeley", "Yanic Konan Niederhauser",
+  "Rasheer Fleming", "Noah Penda", "Sion James", "Ryan Kalkbrenner", "Johni Broome",
+  "Adou Thiero", "Chaz Lanier", "Kam Jones", "Alijah Martin", "Micah Peavy",
+  "Koby Brea", "Maxime Raynaud", "Jamir Watkins", "Brooks Barnhizer", "Rocco Zikarsky",
+  "Amari Williams", "Bogoljub Markovic", "Javon Small", "Tyrese Proctor", "Kobe Sanders",
+  "Mohamed Diawara", "Alex Toohey", "John Tonje", "Taelon Peter", "Lachlan Olbrich",
+  "Will Richard", "Max Shulga", "Saliou Niang", "Jahmai Mashack"
+)
+final_draft_synergy_percentiled %>% filter(Player == "VJ Edgecombe")
+filtered_draft_df <- final_draft_synergy_percentiled %>%
+  filter(Player %in% drafted_players)
+
+setdiff(drafted_players, unique(final_draft_synergy_percentiled$Player))
+
+```
+
+```{r}
+saveRDS(nba_full_combined_percentiled, "nba_full_combined_percentiled.rds")
+saveRDS(team_playtype_percentiled, "team_playtype_percentiled.rds")
+saveRDS(filtered_draft_df, "final_draft_synergy_percentiled.rds")
+
+```
+
+## Fit Function for Post-Draft
+
+```{r}
+final_draft_synergy_percentiled1_backup <- readRDS("~/Post-Draft App/data/final_draft_synergy_percentiled.rds")
+  team_playtype_percentiled1_backup <- readRDS("~/Post-Draft App/data/team_playtype_percentiled.rds")
+  nba_full_combined_percentiled1_backup <- readRDS("~/Post-Draft App/data/nba_full_combined_percentiled.rds")
+  nba_team_data_backup <- readRDS("~/Post-Draft App/data/nba_team_data.rds")
+  team_colors_backup <- readxl::read_excel("~/Post-Draft App/data/Drafted Teams.xlsx")
+  player_headshots_backup <- readxl::read_excel("~/Post-Draft App/data/Post-Draft Headshots.xlsx")
+  player_breakdowns_backup <- readxl::read_excel("~/Post-Draft App/data/Post-Draft Writeups.xlsx")
+  fit_func_backup <- readRDS("~/Post-Draft App/functions/find_team_stat_weakness_and_matches.rds")
+```
+
+```{r}
+
+#player_playtype_master_dedup %>% filter(Player == "Max Christie")
+#player_playtype_master_dedup %>% filter(Player == "Jaime Jaquez Jr.")
+
+#nba_combined_summer <- nba_combined_summer %>%
+ # mutate(Player = ifelse(Player == "TJ McConnell", "T.J. McConnell", Player))
+#nba_combined_summer %>% filter (Player == "Max Christie")
+
+
+#nba_full_combined <- player_playtype_master_dedup %>%
+ # left_join(nba_combined_summer, by = "Player")
+nba_full_combined %>% filter(Player == "Kel'el Ware") %>% select(`PTS/G...184`)
+nba_full_combined$`PTS/G...184`
+nba_full_combined$PTS <- nba_full_combined$`PTS/G...123`
+
+nba_full_combined_percentiled <- nba_full_combined %>%
+  mutate(across(
+    .cols = where(is.numeric),
+    .fns = ~ percent_rank(.x) * 100,
+    .names = "{.col}_pctile"
+  )) %>%
+  mutate(across(
+    .cols = ends_with("_pctile"),
+    .fns = ~ round(.x, 0)
+  )) %>%
+  mutate(across(
+    .cols = matches("(^TO%|^TO|^DRtg).*_pctile$"),
+    .fns = ~ 100 - .x
+  ))
+
+nba_full_combined_percentiled %>% filter(Player == "Kel'el Ware") %>% select(PTS)
+
+saveRDS(nba_full_combined_percentiled, "nba_full_combined_percentiled.rds")
+
+```
+
+## Team Pipeline
+
+```         
+```
+
+```{r}
+player_playtype_master %>% filter(Player == "Thomas Bryant")
+
+
+
+max_correct <- player_playtype_master %>% filter(Player == "Max Christie" & Team == "Dallas Mavericks")
+
+common_cols <- intersect(colnames(nba_full_combined), colnames(max_correct))
+
+
+nba_full_combined <- nba_full_combined %>%
+  mutate(across(all_of(common_cols), 
+                ~ if_else(Player == "Max Christie", max_correct[[cur_column()]], .)))
+
+
+
+bryant_correct <- player_playtype_master %>%
+  filter(Player == "Thomas Bryant" & Team == "Indiana Pacers")
+
+common_cols <- intersect(colnames(nba_full_combined), colnames(bryant_correct))
+
+nba_full_combined <- nba_full_combined %>%
+  mutate(across(
+    all_of(common_cols),
+    ~ if_else(Player == "Thomas Bryant", bryant_correct[[cur_column()]], .)
+  ))
+
+```
+
+```{r}
+
+
+```
+
+## Name Pipeline
+
+```{r}
+nba_combined_summer <- nba_combined_summer %>%
+  mutate(Player = if_else(Player == "Kelel Ware", "Kel'el Ware", Player))
+
+summer_row <- nba_combined_summer %>% filter(Player == "Kel'el Ware")
+master_row <- player_playtype_master_dedup %>% filter(Player == "Kel'el Ware")
+
+combined_row <- full_join(master_row, summer_row, by = "Player")
+
+nba_full_combined <- bind_rows(nba_full_combined, combined_row)
+
+nba_full_combined <- nba_full_combined %>%
+  filter(!(Player == "Kel'el Ware." & is.na(MP))) %>%
+  distinct(Player, .keep_all = TRUE)
+
+nba_full_combined %>% filter(Player == "Kel'el Ware")
+
+```
+
+```{r}
+nba_combined_summer <- nba_combined_summer %>%
+  mutate(Player = if_else(Player == "Kelel Ware", "Kel'el Ware", Player))
+
+summer_row <- nba_combined_summer %>% filter(Player == "Kel'el Ware")
+master_row <- player_playtype_master_dedup %>% filter(Player == "Kel'el Ware")
+
+combined_row <- full_join(master_row, summer_row, by = "Player")
+
+nba_full_combined <- bind_rows(nba_full_combined, combined_row)
+
+nba_full_combined <- nba_full_combined %>%
+  filter(!(Player == "Kel'el Ware." & is.na(MP))) %>%
+  distinct(Player, .keep_all = TRUE)
+
+nba_full_combined %>% filter(Player == "Kel'el Ware")
+
+
+
+
+classification_points_df_6 %>% filter(Player == "Peyton Watson")
+```
